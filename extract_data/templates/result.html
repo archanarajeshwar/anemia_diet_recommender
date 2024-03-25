@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anemia Detection Results</title>
+</head>
+<body>
+    <h1>Anemia Detection Results</h1>
+    
+    <h2>Extracted Data:</h2>
+    <ul>
+        <li>Age: {{ extracted_data.Age }}</li>
+        <li>Sex: {{ extracted_data.Sex }}</li>
+        <li>Hemoglobin: {{ extracted_data.Hemoglobin.value }} {{ extracted_data.Hemoglobin.unit }}</li>
+        <li>Mean Corpuscular Volume: {{ extracted_data['Mean Corpuscular Volume'].value }} {{ extracted_data['Mean Corpuscular Volume'].unit }}</li>
+        <li>Mean Corpuscular HGB Conc.: {{ extracted_data['Mean Corpuscular HGB Conc.'].value }} {{ extracted_data['Mean Corpuscular HGB Conc.'].unit }}</li>
+    </ul>
+
+    <h2>Anemia Type:</h2>
+    <p>{{ anemia_type }}</p>
+</body>
+</html>
