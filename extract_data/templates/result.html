@@ -4,20 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anemia Detection Results</title>
+    <link rel="stylesheet" href="static/upload.css">
+
 </head>
 <body>
-    <h1>Anemia Detection Results</h1>
-    
-    <h2>Extracted Data:</h2>
-    <ul>
-        <li>Age: {{ extracted_data.Age }}</li>
-        <li>Sex: {{ extracted_data.Sex }}</li>
-        <li>Hemoglobin: {{ extracted_data.Hemoglobin.value }} {{ extracted_data.Hemoglobin.unit }}</li>
-        <li>Mean Corpuscular Volume: {{ extracted_data['Mean Corpuscular Volume'].value }} {{ extracted_data['Mean Corpuscular Volume'].unit }}</li>
-        <li>Mean Corpuscular HGB Conc.: {{ extracted_data['Mean Corpuscular HGB Conc.'].value }} {{ extracted_data['Mean Corpuscular HGB Conc.'].unit }}</li>
-    </ul>
-
-    <h2>Anemia Type:</h2>
-    <p>{{ anemia_type }}</p>
+    <h1 class='heading'>Anemia Detection Results</h1>
+    <br></br>
+    <div class="container">
+        <h2>Data:</h2>
+        <ul>
+            {% for data in extracted_data %}
+                <li>Age: {{ data.Age }}</li>
+                <li>Sex: {{ data.Sex }}</li>
+                <li>Hemoglobin: {{ data.Hemoglobin }} g/dL</li>
+                <li>Mean Corpuscular Volume: {{ data.MCV }} fL</li>
+            {% endfor %}
+        </ul>
+        <h2>Anemia Type:</h2>
+        <p>{{ anemia_type }}</p>
+    </div>
 </body>
 </html>

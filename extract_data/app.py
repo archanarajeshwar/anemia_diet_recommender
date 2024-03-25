@@ -4,53 +4,53 @@ import pdfplumber
 import re
 
 app = Flask(__name__)
-app.secret_key = "secret"  # Secret key for flash messages
 
-def extract_data_from_pdf(pdf_file):
-    # Define regular expressions for pattern matching
-    age_sex_pattern = r"Age : (\d+) Yrs Sex : (\w+)"
-    hemoglobin_pattern = r"H[ae]moglobin (\d+\.\d+)"
-    mcv_pattern = r"(MCV|M\.C\.V|Mean\sCorpuscular\sVolume) (\d+\.\d+)"
-    mean_corp_hgb_conc_pattern = r"Mean Corpuscular HGB Conc\. (\d+\.\d+)"
+def extract_value(text, keyword):
+    pattern = re.compile(r'{}[\s:]+(.+?)(?:\n|$)'.format(keyword), re.IGNORECASE)
+    match = re.search(pattern, text)
+    if match:
+        return match.group(1).strip()
+    return None
 
-    # Initialize dictionary to store extracted data
-    extracted_data = {}
+def extract_information(pdf_file_path):
+    extracted_data = []
 
-    # Open the PDF file
-    with pdfplumber.open(pdf_file) as pdf:
-        # Extract text from each page
+    with pdfplumber.open(pdf_file_path) as pdf:
         for page in pdf.pages:
             text = page.extract_text()
 
-            # Extract fields using regular expressions
-            age_sex_match = re.search(age_sex_pattern, text)
-            hemoglobin_match = re.search(hemoglobin_pattern, text)
-            mcv_match = re.search(mcv_pattern, text)
-            mean_corp_hgb_conc_match = re.search(mean_corp_hgb_conc_pattern, text)
+            # Example: searching for specific keywords or patterns
+            hemoglobin = extract_value(text, "HEMOGLOBIN")[:4]
+            sex = extract_value(text, "Sex")
+            age = extract_value(text, "Age")[:2]
+            mcv = extract_value(text, "Mean Corpuscular Volume")[:4]
 
-            # Store extracted fields in the dictionary
-            if age_sex_match:
-                extracted_data["Age"] = age_sex_match.group(1)
-                extracted_data["Sex"] = age_sex_match.group(2)
-
-            if hemoglobin_match:
-                extracted_data["Hemoglobin"] = hemoglobin_match.group(1)
-
-            if mcv_match:
-                extracted_data["Mean Corpuscular Volume"] = mcv_match.group(2)
-
-            if mean_corp_hgb_conc_match:
-                extracted_data["Mean Corpuscular HGB Conc."] = mean_corp_hgb_conc_match.group(1)
+            # Append extracted data to list
+            extracted_data.append({
+                "Hemoglobin": hemoglobin,
+                "Sex": sex,
+                "Age": age,
+                "MCV": mcv,
+            })
 
     return extracted_data
 
+
+
 def identify_anemia_type(mcv_value):
+    if mcv_value is None:
+        return "Data not available"
+    mcv_value = float(mcv_value)
     if mcv_value < 80:
         return "Microcytic Anemia"
     elif 80 <= mcv_value <= 100:
         return "Normocytic Anemia"
     else:
         return "Macrocytic Anemia"
+
+
+
+
 
 @app.route("/", methods=["GET", "POST"])
 def upload_file():
@@ -72,19 +72,13 @@ def upload_file():
             file_path = os.path.join("uploads", filename)
             
             # Extract data from PDF
-            extracted_data = extract_data_from_pdf(file_path)
+            extracted_data = extract_information(file_path)
             
-            # Extract MCV value
-            mcv_value = float(extracted_data.get("Mean Corpuscular Volume", "0"))
+            # Extract MCV value from the first entry
+            mcv_value = extracted_data[0].get("MCV")
             
             # Identify anemia type
             anemia_type = identify_anemia_type(mcv_value)
-            
-            # Save extracted data or use for further processing
-            # For now, just print the extracted data and anemia type
-            print("Extracted Data:")
-            print(extracted_data)
-            print("Anemia Type:", anemia_type)
             
             # Render the template with extracted data and anemia type
             return render_template("result.html", extracted_data=extracted_data, anemia_type=anemia_type)
