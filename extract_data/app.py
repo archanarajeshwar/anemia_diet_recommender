@@ -1,9 +1,30 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
-import os
+from mysql import connector
 import pdfplumber
+import os
 import re
 
 app = Flask(__name__)
+
+def search_food_items(anemia_type, iron_min, iron_max, folate_min, folate_max, vitamin_c_min, vitamin_c_max):
+    cnx = connector.connect(user='root', password='adelard',
+                                host='localhost',
+                                database='recommender')
+    cursor = cnx.cursor()
+    query = """
+    SELECT Food Name FROM recommender.labeled_dataset WHERE Anemia_Type = %s
+        AND Iron >= %s AND Iron <= %s
+        AND Folate >= %s AND Folate <= %s
+        AND VitaminC >= %s AND VitaminC <= %s
+    LIMIT 6
+    """
+            # ORDER BY Food_Name DES;
+    cursor.execute(query, (anemia_type, iron_min, iron_max, folate_min, folate_max, vitamin_c_min, vitamin_c_max))
+    results = cursor.fetchall()
+    cnx.close()
+    return results
+
+
 
 def extract_value(text, keyword):
     pattern = re.compile(r'{}[\s:]+(.+?)(?:\n|$)'.format(keyword), re.IGNORECASE)
@@ -60,6 +81,47 @@ def get_anemia_description(anemia_type):
         return anemia_type, anemia_types[anemia_type]
     else:
         return "Anemia type not found", "Description not available"
+    
+
+def get_nutrient_ranges(age, gender):
+    age = int(age)
+    if age < 14:
+        age_group = "1-13 years"
+    elif age < 19:
+        age_group = "14-18 years"
+    else:
+        age_group = "19+"
+        
+    gender = gender.lower()
+
+    iron_range = {"female": {"1-13 years": (7, 8), "14-18 years": (15, 18), "19+": (18, 18)},
+                  "male": {"1-13 years": (7, 8), "14-18 years": (11, 15), "19+": (8, 8)}}
+
+    folate_range = {"female": {"1-13 years": (150, 300), "14-18 years": (400, 400), "19+": (400, 400)},
+                    "male": {"1-13 years": (150, 300), "14-18 years": (400, 400), "19+": (400, 400)}}
+
+    vitamin_c_range = {"female": {"1-13 years": (15, 45), "14-18 years": (65, 75), "19+": (75, 75)},
+                       "male": {"1-13 years": (15, 45), "14-18 years": (75, 90), "19+": (90, 90)}}
+
+    # Get the corresponding nutrient ranges based on age and gender
+    if age_group in iron_range[gender]:
+        iron_min, iron_max = iron_range[gender][age_group]
+    else:
+        iron_min, iron_max = iron_range[gender]["19+"]
+    
+    if age_group in folate_range[gender]:
+        folate_min, folate_max = folate_range[gender][age_group]
+    else:
+        folate_min, folate_max = folate_range[gender]["19+"]
+    
+    if age_group in vitamin_c_range[gender]:
+        vitamin_c_min, vitamin_c_max = vitamin_c_range[gender][age_group]
+    else:
+        vitamin_c_min, vitamin_c_max = vitamin_c_range[gender]["19+"]
+
+    return iron_min, iron_max, folate_min, folate_max, vitamin_c_min, vitamin_c_max
+
+# iron_min, iron_max, folate_min, folate_max, vitamin_c_min, vitamin_c_max = get_nutrient_ranges(age, gender)
 
 
 
@@ -87,21 +149,31 @@ def upload_file():
             
             # Extract MCV value from the first entry
             mcv_value = extracted_data[0].get("MCV")
+            age = extracted_data[0].get("Age")
+            gender = extracted_data[0].get("Sex")
             
             # Identify anemia type
             anemia_type = identify_anemia_type(mcv_value)
             
             name, description = get_anemia_description(anemia_type)
+
+            iron_min, iron_max, folate_min, folate_max, vitamin_c_min, vitamin_c_max = get_nutrient_ranges(age, gender)
+            
+            food_items = search_food_items(anemia_type, iron_min, iron_max, folate_min, folate_max, vitamin_c_min, vitamin_c_max)
             
             # Render the template with extracted data and anemia type
-            return render_template("home.html", extracted_data=extracted_data, anemia_type=anemia_type, name=name, description=description)
-
+            return render_template(
+                "home.html", 
+                extracted_data=extracted_data, 
+                anemia_type=anemia_type, 
+                name=name, 
+                description=description,
+                food_items=food_items
+                )
+        
     return render_template("upload.html")
 
 
-@app.route('/home')
-def home():
-    return render_template("home.html")
 
 
 if __name__ == "__main__":

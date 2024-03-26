@@ -28,16 +28,17 @@
         
         <div>
             <div class="card">
-                {% 
-                    <li>Description</li>
-                %}
+                <h3>{{name}}</h3>
+                <p>{{description}}</p>
             </div>
         </div>
 
         <div class="card">
+            <p>{{food_items}}</p>
+            <!--
             <h2>Choose Ingredients</h2>
             <p>Salt, pepper and other common ingredients are assumed to be available</p>
-            <div class="ingredients">
+             <div class="ingredients">
                 <div class="ingredient">
                     <label for="pork">Pork</label>
                     <input type="checkbox" id="pork" name="ingredient">
@@ -74,9 +75,11 @@
                     <label for="powder">Sugar</label>
                     <input type="checkbox" id="powder" name="ingredient">
                 </div>
-                </div>
+                </div> -->
+
             <button type="submit">What can I cook with these?</button>
         </div>
     </div>
+
 </body>
 </html>
