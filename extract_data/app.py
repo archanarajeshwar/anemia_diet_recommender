@@ -47,8 +47,19 @@ def identify_anemia_type(mcv_value):
         return "Normocytic Anemia"
     else:
         return "Macrocytic Anemia"
+    
 
-
+def get_anemia_description(anemia_type):
+    anemia_types = {
+        "Normocytic Anemia": "Normocytic anemia is characterized by red blood cells that are normal in size but insufficient in number or function. It can be caused by various factors such as chronic diseases, kidney failure, or bone marrow disorders.",
+        "Microcytic Anemia": "Microcytic anemia occurs when red blood cells are smaller than normal. This can be due to iron deficiency, thalassemia, or other conditions affecting hemoglobin synthesis.",
+        "Macrocytic Anemia": "Macrocytic anemia is characterized by larger than normal red blood cells. This can be caused by deficiencies in vitamin B12 or folate, as well as certain medications or underlying health conditions."
+    }
+    
+    if anemia_type in anemia_types:
+        return anemia_type, anemia_types[anemia_type]
+    else:
+        return "Anemia type not found", "Description not available"
 
 
 
@@ -68,8 +79,8 @@ def upload_file():
         
         if file:
             filename = file.filename
-            file.save(os.path.join("uploads", filename))
-            file_path = os.path.join("uploads", filename)
+            file.save(os.path.join("extract_data\\uploads", filename))
+            file_path = os.path.join("extract_data\\uploads", filename)
             
             # Extract data from PDF
             extracted_data = extract_information(file_path)
@@ -80,10 +91,18 @@ def upload_file():
             # Identify anemia type
             anemia_type = identify_anemia_type(mcv_value)
             
+            name, description = get_anemia_description(anemia_type)
+            
             # Render the template with extracted data and anemia type
-            return render_template("result.html", extracted_data=extracted_data, anemia_type=anemia_type)
+            return render_template("home.html", extracted_data=extracted_data, anemia_type=anemia_type, name=name, description=description)
 
     return render_template("upload.html")
+
+
+@app.route('/home')
+def home():
+    return render_template("home.html")
+
 
 if __name__ == "__main__":
     app.run(debug=True)
