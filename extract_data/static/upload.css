@@ -1,53 +1,41 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-}
-
-.container{
-    text-align: center;
-    width: 250px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    text-align: center;
-    padding: 10px;
-}
-
-.heading {
-    text-align: center;
-    color: #333;
-}
-
-ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-li {
-    margin-bottom: 10px;
-}
-
-h2 {
-    color: #555;
-}
-
-p {
-    color: #007bff;
-    font-weight: bold;
 }
 
 .container {
     max-width: 800px;
-    margin: auto;
+    margin: 0 auto;
     padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Styling for links */
-a {
-    color: #007bff;
-    text-decoration: none;
+.heading {
+    text-align: center;
 }
 
-a:hover {
-    text-decoration: underline;
+.report {
+    margin-top: 20px;
+}
+
+.report h2 {
+    margin-bottom: 10px;
+}
+
+.data {
+    margin-bottom: 20px;
+}
+
+.data p {
+    margin: 5px 0;
+}
+
+.data p strong {
+    font-weight: bold;
+}
+
+#anemia-type {
+    font-weight: bold;
 }
