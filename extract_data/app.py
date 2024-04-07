@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from data_extration import ExtractPDFData
-from mysql import connector
 import os
 
 app = Flask(__name__)
@@ -24,18 +23,14 @@ def upload_file():
             file.save(os.path.join("uploads", filename))
             file_path = os.path.join("uploads", filename)
             
-            # Extract data from PDF
             extracted_data = ExtractPDFData().extract_information(file_path)
             
-            # Extract MCV value from the first entry
             mcv_value = extracted_data[0].get("MCV")
             age = extracted_data[0].get("Age")
             gender = extracted_data[0].get("Sex")
             
-            # Identify anemia type
             anemia_type = ExtractPDFData().identify_anemia_type(mcv_value)
             
-            # Render the template with extracted data and anemia type
             return render_template(
                 "home.html", 
                 extracted_data=extracted_data, 
