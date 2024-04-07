@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from data_extration import ExtractPDFData
+from prompt import Prompt
+from text_processor import TextProcessor
 import os
 
 app = Flask(__name__)
@@ -25,16 +27,16 @@ def upload_file():
             
             extracted_data = ExtractPDFData().extract_information(file_path)
             
-            mcv_value = extracted_data[0].get("MCV")
-            age = extracted_data[0].get("Age")
-            gender = extracted_data[0].get("Sex")
+            recommendations = Prompt().generate_prompt(extracted_data)
             
-            anemia_type = ExtractPDFData().identify_anemia_type(mcv_value)
+            summary, type_of_amemia, diet, daily_activity = TextProcessor().processor(recommendations)
             
             return render_template(
                 "home.html", 
-                extracted_data=extracted_data, 
-                anemia_type=anemia_type, 
+                summary = summary, 
+                type_of_amemia = type_of_amemia, 
+                diet = diet, 
+                daily_activity = daily_activity, 
                 )
         
     return render_template("upload.html")

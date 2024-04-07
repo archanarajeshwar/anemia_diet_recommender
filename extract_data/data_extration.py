@@ -20,19 +20,9 @@ class ExtractPDFData:
 
         with pdfplumber.open(pdf_file_path) as pdf:
             for page in pdf.pages:
-                text = page.extract_text()
+                extracted_data = page.extract_text()
 
-                hemoglobin = ExtractPDFData().extract_value(text, "HEMOGLOBIN")[:4]
-                sex = ExtractPDFData().extract_value(text, "Sex")
-                age = ExtractPDFData().extract_value(text, "Age")[:2]
-                mcv = ExtractPDFData().extract_value(text, "Mean Corpuscular Volume")[:4]
-                
-                extracted_data.append({
-                    "Hemoglobin": hemoglobin,
-                    "Sex": sex,
-                    "Age": age,
-                    "MCV": mcv,
-                })
+            print(extracted_data)
         return extracted_data
 
 

@@ -15,52 +15,29 @@
     
     <!-- Report Summary -->
     <div class="section">
-      <h3>Summary of the Report with Percentage:</h3>
+      <h3>SUMMARY OF THE REPORT</h3>
       <div class="parameter">
-        <span>Hemoglobin:</span>
-        <span>12.3 g/dl</span>
-      </div>
-      <!-- Add other parameters here -->
-      <div class="parameter">
-        <span>WBC Morphology:</span>
-        <span>Normal</span>
+        <p>{{summary.split(':\n- ')[1]}}</p>
       </div>
     </div>
 
     <!-- Type of Anemia -->
     <div class="section">
-      <h3>Type of Anemia:</h3>
-      <p>This person appears to have a mild form of iron-deficiency anemia. The indicators include:</p>
-      <ul>
-        <li>Low haematocrit (33.5%)</li>
-        <li>Low mean corpuscular volume (MCV) indicating small-sized red blood cells (85.9 fl)</li>
-        <li>High mean corpuscular hemoglobin concentration (MCHC) suggesting increased hemoglobin in proportion to the size of red blood cells (36.7 gm/dl)</li>
-        <li>Normochromic normocytic red blood cells, which can be a characteristic feature of iron-deficiency anemia.</li>
-      </ul>
+      <h3>{{type_of_amemia.split(':\n')[0]}}</h3>
+      <p>{{type_of_amemia.split(':\n')[1]}}</p>
     </div>
 
     <!-- Dietary Recommendations -->
     <div class="section diet-plan">
-      <h3>Dietary Recommendations:</h3>
-      <p>Indian cuisine offers a variety of iron-rich foods that can help combat iron-deficiency anemia. Here's a three-meal plan:</p>
-      <ul>
-        <li><strong>Breakfast:</strong> Spinach (Palak) Paratha with a side of Yogurt (Dahi)</li>
-        <li><strong>Lunch:</strong> Lentil (Dal) Curry with Fenugreek (Methi) Leaves and Brown Rice</li>
-        <li><strong>Dinner:</strong> Grilled Chicken (Tandoori Chicken) with Beetroot (Chukandar) Salad</li>
-      </ul>
+      <h3>DIETARY RECOMMENDATIONS WITH IT'S NUTRITIONAL VALUE</h3>
+      <p>{{diet.split(':\n- ')[1]}}</p>
     </div>
 
     <!-- Daily Activity Recommendation -->
     <div class="section activity-recommendation">
       <h3>Daily Activity Recommendation:</h3>
-      <p>It's essential for Miss Archana to engage in regular physical activity to improve blood circulation and overall health. Recommendations include:</p>
-      <ul>
-        <li>Aerobic exercises like brisk walking, jogging, or cycling for at least 30 minutes a day.</li>
-        <li>Incorporating strength training exercises to build muscle mass, which can also improve overall energy levels.</li>
-        <li>Yoga or meditation to reduce stress and promote relaxation, as stress can exacerbate symptoms of anemia.</li>
-      </ul>
+      <p>{{daily_activity.split('\n- ')[1]}}</p>
     </div>
-
   </div>
 </body>
 
