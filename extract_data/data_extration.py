@@ -20,9 +20,11 @@ class ExtractPDFData:
 
         with pdfplumber.open(pdf_file_path) as pdf:
             for page in pdf.pages:
-                extracted_data = page.extract_text()
+                page_text= page.extract_text()
+                extracted_data.append(page_text)
 
             print(extracted_data)
+            print(type(extracted_data))
         return extracted_data
 
 

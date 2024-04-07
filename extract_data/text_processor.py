@@ -5,7 +5,7 @@ class TextProcessor:
         summary = recommendation.split('2. ')[0].strip()
         type_of_amemia = recommendation.split('2. ')[1].split('3. ')[0].strip()
         diet = recommendation.split('3. ')[1].split('4. ')[0].strip()
-        daily_activity = recommendation.split('4. ')[1].strip()
+        daily_activity = recommendation.split('3. ')[1].split('4. ')[1].strip()
         return (
             summary, 
             type_of_amemia, 

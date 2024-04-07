@@ -6,6 +6,7 @@ client = openai.OpenAI(api_key=api_key)
 class Prompt:
     def generate_prompt(self, extracted_data):
         query = f'''{extracted_data}
+        
                     1. GIVE ME SUMMARY OF THIS ABOVE REPORT. 
                     2. WHAT TYPE OF ANEMIA DOES THIS PERSON HAS AND THE MORPHOLOGY OF WBC IN DETAIL. 
                     3. GIVE DIETARY RECOMMENDATIONS WITH IT'S NUTRITIONAL VALUE (3 MEAL PLAN INDIAN FOOD CUISINE WITH PROPER INDIAN NAMES).
