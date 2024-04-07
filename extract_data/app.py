@@ -27,7 +27,6 @@ def upload_file():
             
             extracted_data = ExtractPDFData().extract_information(file_path)
             
-<<<<<<< HEAD
             recommendations = Prompt().generate_prompt(extracted_data)
             
             summary, type_of_amemia, diet, daily_activity = TextProcessor().processor(recommendations)
@@ -38,15 +37,6 @@ def upload_file():
                 type_of_amemia = type_of_amemia, 
                 diet = diet, 
                 daily_activity = daily_activity, 
-=======
-            # Extract MCV value from the first entry
-           
-            # Render the template with extracted data and anemia type
-            return render_template(
-                "home.html", 
-                extracted_data=extracted_data, 
-            
->>>>>>> 735f9a6e027edeacba0169aeaa8d9443bb6e3cba
                 )
         
     return render_template("upload.html")
