@@ -21,8 +21,8 @@ def upload_file():
         
         if file:
             filename = file.filename
-            file.save(os.path.join("extract_data\\uploads", filename))
-            file_path = os.path.join("extract_data\\uploads", filename)
+            file.save(os.path.join("uploads", filename))
+            file_path = os.path.join("uploads", filename)
             
             # Extract data from PDF
             extracted_data = ExtractPDFData().extract_information(file_path)

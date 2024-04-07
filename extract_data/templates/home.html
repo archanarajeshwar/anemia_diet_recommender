@@ -8,78 +8,60 @@
     <link rel="stylesheet" href="static/upload.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
+<html lang="en">
 <body>
-    <!-- <h1>Recommendation</h1> -->
-    <div>
-    <div class="card-container">
-        <div class="card">
-            <h2>Results:</h2>
-            <ul>
-                {% for data in extracted_data %}
-                    <li>Age: {{ data.Age }}</li>
-                    <li>Sex: {{ data.Sex }}</li>
-                    <li>Hemoglobin: {{ data.Hemoglobin }} g/dL</li>
-                    <li>Mean Corpuscular Volume: {{ data.MCV }} fL</li>
-                {% endfor %}
-            </ul>
-            <h2>Anemia Type:</h2>
-            <p>{{ anemia_type }}</p>
-        </div>
-        
-        <div>
-            <div class="card">
-                <h3>{{name}}</h3>
-                <p>{{description}}</p>
-            </div>
-        </div>
-
-        <div class="card">
-            <p>{{food_items}}</p>
-            <!--
-            <h2>Choose Ingredients</h2>
-            <p>Salt, pepper and other common ingredients are assumed to be available</p>
-             <div class="ingredients">
-                <div class="ingredient">
-                    <label for="pork">Pork</label>
-                    <input type="checkbox" id="pork" name="ingredient">
-                </div>
-                <div class="ingredient">
-                    <label for="pork">Pork</label>
-                    <input type="checkbox" id="pork" name="ingredient">
-                </div>
-                <div class="ingredient">
-                    <label for="salmon">Salmon</label>
-                    <input type="checkbox" id="salmon" name="ingredient">
-                </div>
-                <div class="ingredient">
-                    <label for="onion">Onion</label>
-                    <input type="checkbox" id="onion" name="ingredient">
-                </div>
-                <div class="ingredient">
-                    <label for="lemon">Lemon</label>
-                    <input type="checkbox" id="lemon" name="ingredient">
-                </div>
-                <div class="ingredient">
-                    <label for="milk">Milk</label>
-                    <input type="checkbox" id="milk" name="ingredient">
-                </div>
-                <div class="ingredient">
-                    <label for="flour">Flour</label>
-                    <input type="checkbox" id="flour" name="ingredient">
-                </div>
-                <div class="ingredient">
-                    <label for="yogurt">Yogurt</label>
-                    <input type="checkbox" id="yogurt" name="ingredient">
-                </div>
-                <div class="ingredient">
-                    <label for="powder">Sugar</label>
-                    <input type="checkbox" id="powder" name="ingredient">
-                </div>
-                </div> -->
-
-            <button type="submit">What can I cook with these?</button>
-        </div>
+  <div class="container">
+    <h2>Anemia Report</h2>
+    
+    <!-- Report Summary -->
+    <div class="section">
+      <h3>Summary of the Report with Percentage:</h3>
+      <div class="parameter">
+        <span>Hemoglobin:</span>
+        <span>12.3 g/dl</span>
+      </div>
+      <!-- Add other parameters here -->
+      <div class="parameter">
+        <span>WBC Morphology:</span>
+        <span>Normal</span>
+      </div>
     </div>
 
+    <!-- Type of Anemia -->
+    <div class="section">
+      <h3>Type of Anemia:</h3>
+      <p>This person appears to have a mild form of iron-deficiency anemia. The indicators include:</p>
+      <ul>
+        <li>Low haematocrit (33.5%)</li>
+        <li>Low mean corpuscular volume (MCV) indicating small-sized red blood cells (85.9 fl)</li>
+        <li>High mean corpuscular hemoglobin concentration (MCHC) suggesting increased hemoglobin in proportion to the size of red blood cells (36.7 gm/dl)</li>
+        <li>Normochromic normocytic red blood cells, which can be a characteristic feature of iron-deficiency anemia.</li>
+      </ul>
+    </div>
+
+    <!-- Dietary Recommendations -->
+    <div class="section diet-plan">
+      <h3>Dietary Recommendations:</h3>
+      <p>Indian cuisine offers a variety of iron-rich foods that can help combat iron-deficiency anemia. Here's a three-meal plan:</p>
+      <ul>
+        <li><strong>Breakfast:</strong> Spinach (Palak) Paratha with a side of Yogurt (Dahi)</li>
+        <li><strong>Lunch:</strong> Lentil (Dal) Curry with Fenugreek (Methi) Leaves and Brown Rice</li>
+        <li><strong>Dinner:</strong> Grilled Chicken (Tandoori Chicken) with Beetroot (Chukandar) Salad</li>
+      </ul>
+    </div>
+
+    <!-- Daily Activity Recommendation -->
+    <div class="section activity-recommendation">
+      <h3>Daily Activity Recommendation:</h3>
+      <p>It's essential for Miss Archana to engage in regular physical activity to improve blood circulation and overall health. Recommendations include:</p>
+      <ul>
+        <li>Aerobic exercises like brisk walking, jogging, or cycling for at least 30 minutes a day.</li>
+        <li>Incorporating strength training exercises to build muscle mass, which can also improve overall energy levels.</li>
+        <li>Yoga or meditation to reduce stress and promote relaxation, as stress can exacerbate symptoms of anemia.</li>
+      </ul>
+    </div>
+
+  </div>
 </body>
+
 </html>
